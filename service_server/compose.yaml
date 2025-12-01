@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend         
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend.env
+
+    volumes:
+      # 직접 호스트 머신에서 로그 확인을 위해 바인드 마운트
+      - type: bind 
+        # 백엔드는 백엔드만의 로그 적재.
+        source: ./backend/logs
+        target: /logs
+      - type: bind
+        source: ./backend
+        target: /backend
+
+
+  frontend:
+    build:
+      context: ./frontend # 프론트엔드 도커파일 경로
+    container_name: frontend
+    ports:
+      - "8081:8081"   # NOTE: Metro dev server
+      - "19000:19000" # NOTE: Expo dev (manifest/channel)
+      - "19001:19001" # NOTE: logs/websocket
+      - "19002:19002" # NOTE: DevTools UI
+      - "19006:19006" # NOTE: Web 미사용이면 제거 가능
+
+      # - "3000:3000" # 호스트 머신:컨테이너
+
+    volumes:
+      # 프론트 엔드는 실시간 코드 반영이 중요
+      # 따라서 컨테이너를 재가동하지 않아도 코드가 바로 반영되도록
+      # 소스 코드를 바인드 마운트.
+      - type: bind
+        source: ./frontend
+        target: /frontend
+      - type: volume
+        source: frontend_node_modules
+        target: /frontend/node_modules
+    working_dir: /frontend
+    command: sh -c "npm install && npm start"
+    environment:
+      - NODE_ENV=development
+      - BACKEND_INTERNAL_BASE=http://backend:8080
+
+    # NOTE: QR/Interactive를 위해 TTY 필요
+    # tty: true
+    # stdin_open: true
+
+volumes: 
+  frontend_node_modules:

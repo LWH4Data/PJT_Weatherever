@@ -1,0 +1,47 @@
+version: "3.8"
+
+networks:
+  pjt-b102:
+    external: true   # 미리 만들어둔 공용 네트워크 사용
+
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    container_name: zookeeper
+    networks: [pjt-b102]
+    restart: unless-stopped
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      # 단일 노드면 ZOO_SERVERS 설정은 없어도 됩니다. 남겨도 무해.
+
+    volumes:
+      - /data/zookeeper:/bitnami/zookeeper
+
+  kafka:
+    image: bitnami/kafka:3.6
+    container_name: kafka
+    depends_on: [zookeeper]
+    networks: [pjt-b102]          # ✅ 반드시 추가
+    restart: unless-stopped
+    ulimits:
+      nofile: 100000
+    ports:
+      - "9092:9092"               # 내부 테스트용(옵션)
+      - "19092:19092"             # 외부(다른 서버에서 붙을 때)
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+
+      # 리스너 2개 (내부/외부)
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092,EXTERNAL://:19092
+      # ✅ 서버 A의 공인 DNS/IP로 바꿔 넣기 (예: j13b102a.p.ssafy.io)
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://j13b102a.p.ssafy.io:19092
+
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=EXTERNAL
+      - KAFKA_CFG_BROKER_ID=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+    volumes:
+      - /data/kafka:/bitnami/kafka

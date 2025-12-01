@@ -1,0 +1,17 @@
+FROM jupyter/minimal-notebook:python-3.11
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends openjdk-17-jre-headless curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# python 명령을 보장 (python3 -> python 심볼릭 링크)
+RUN ln -sf "$(command -v python3)" /usr/local/bin/python
+
+# PySpark 설치
+RUN pip install --no-cache-dir pyspark==3.5.1 findspark
+
+# JAVA 환경
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+USER $NB_UID

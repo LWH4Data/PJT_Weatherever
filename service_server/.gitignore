@@ -1,0 +1,151 @@
+# ========== OS 공통 ==========
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+*.bak
+
+# ========== 비밀/환경 ==========
+backend.env
+.env
+.env.*
+**/.env
+**/.env.*
+*.key
+*.pem
+*.crt
+*.p12
+*.keystore
+*.jks
+secrets/*
+!secrets/.gitkeep
+
+# ========== Logs / PIDs ==========
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.seed
+*.pid.lock
+
+# ========== Java / Spring Boot (Maven) ==========
+target/
+out/
+.apt_generated/
+.loom/
+*.class
+
+# IntelliJ Annotation Processor 캐시
+.idea/annotations/
+
+# JPA 생성 스키마 등 임시파일
+*.h2.db
+*.mv.db
+
+# 로컬 전용 프로퍼티/설정
+application-*.local.*
+application-local.*
+*.local.properties
+
+# Maven 임시파일
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# ========== React Native ==========
+# Node.js 패키지
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Metro / Bundler 캐시
+.expo/
+.expo-shared/
+.expo-dev/
+.expo-web/
+.expo-packager-cache/
+.expo-bundler-cache/
+.expo-cli/
+.expo/*
+.expo-shared/*
+.packager/
+.packager-cache/
+.expo-generated/
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/.idea/
+*.apk
+*.ap_
+*.aab
+
+# iOS
+ios/Pods/
+ios/build/
+ios/DerivedData/
+*.xcworkspace
+*.xcuserstate
+*.xcuserdatad
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+
+# React Native 테스트/커버리지
+coverage/
+.playwright/
+.cypress/
+jest-html-reporters-*
+
+# ========== 빌드/번들 산출물 ==========
+dist/
+build/
+.out/
+.next/
+.nuxt/
+.storybook-out/
+storybook-static/
+
+# ========== 번들러/툴 캐시 ==========
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+.stylelintcache
+.vite/
+vite.config.local.*
+
+# ========== IDE / Editor ==========
+.idea/
+*.iml
+.vscode/
+.cursor/
+.cursor-*
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.vcxproj
+
+# ========== Docker ==========
+docker-data/
+docker-volume/
+*.tar
+*.img
+
+# ========== 이미지/학습/데이터(옵션) ==========
+*.npy
+*.npz
+*.pkl
+*.pt
+*.onnx
+
+# ========== 검색/임시 작업 폴더 ==========
+ytvectors/
+data/tmp/
+tmp/

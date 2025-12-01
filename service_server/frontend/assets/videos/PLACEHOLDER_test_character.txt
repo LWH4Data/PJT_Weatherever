@@ -1,0 +1,3 @@
+# 테스트용 동영상 placeholder
+# 실제 MP4 파일이 여기에 와야 합니다.
+# 파일명: test_character.mp4

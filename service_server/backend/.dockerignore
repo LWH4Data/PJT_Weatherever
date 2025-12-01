@@ -1,0 +1,24 @@
+# Gradle 캐시
+
+target
+.git
+.idea
+*.iml
+logs
+
+.gradle
+build/
+
+# IDE
+.idea
+*.iml
+
+# OS 관련
+.DS_Store
+
+# 로그 파일
+*.log
+
+
+# 테스트 출력물
+test-output/

@@ -1,0 +1,1 @@
+export { DashboardTabBar } from './DashboardTabBar';

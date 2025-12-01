@@ -1,0 +1,21 @@
+services:
+  spark-worker:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.spark
+    image: spark-3.5.1-kafka-mysql:latest
+    container_name: spark-worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://${MASTER_PUBLIC_DNS}:7077
+      - SPARK_LOCAL_IP=0.0.0.0
+      - SPARK_PUBLIC_DNS=${WORKER_PUBLIC_DNS}   # 추가
+      - SPARK_WORKER_WEBUI_PORT=8082
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=8G
+    volumes:
+      - ./apps:/opt/bitnami/spark/apps
+      - ./conf:/opt/bitnami/spark/conf
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
